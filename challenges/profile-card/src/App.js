@@ -1,5 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+
+const skills = [
+  {
+    title: 'HTML+CSS',
+    level: 'intermediate',
+    color: 'red',
+  },
+  {
+    title: 'React',
+    level: 'beginner',
+    color: 'blue',
+  },
+  {
+    title: 'JavaScript',
+    level: 'intermediate',
+    color: 'orangered',
+  },
+  {
+    title: 'Angular',
+    level: 'intermediate',
+    color: 'grey',
+  },
+  {
+    title: 'Git and Github',
+    level: 'intermediate',
+    color: 'pink',
+  },
+];
 
 function App() {
   return (
@@ -11,14 +38,14 @@ function App() {
 }
 
 function Image() {
-  return <img src='psycho.jpg' className='image'></img>;
+  return <img src='psycho.jpg' className='image' alt='Psycho'></img>;
 }
 
 function CardBody() {
   return (
     <div className='card-body'>
       <Intro />
-      <SkillsList />
+      <Skills />
     </div>
   );
 }
@@ -36,15 +63,20 @@ function Intro() {
   );
 }
 
-function SkillsList() {
+function Skills() {
+  const emojiMap = {
+    beginner: '👶',
+    intermediate: '🖥️',
+    advanced: '🥷',
+  };
   return (
     <ul className='skills-list'>
-      <Skill name='HTML+CSS 💪' backgroundColor='red' />
-      <Skill name='JavaScript 💪' backgroundColor='blue' />
-      <Skill name='Web Design ✍️' backgroundColor='grey' />
-      <Skill name='Git and Github ✍️' backgroundColor='orange' />
-      <Skill name='React 🔥' backgroundColor='brown' />
-      <Skill name='Svelte 🔥' backgroundColor='purple' />
+      {skills.map((skill) => (
+        <Skill
+          name={skill.title + ' ' + emojiMap[skill.level]}
+          backgroundColor={skill.color}
+        />
+      ))}
     </ul>
   );
 }
