@@ -13,54 +13,38 @@ function Counter() {
   const [step, setStep] = useState(1);
   const [count, setCount] = useState(0);
 
-  function onAddStepClick() {
-    setStep((currentStep) => currentStep + 1);
-  }
-
-  function onDecrementStepClick() {
-    setStep((currentStep) => currentStep - 1);
-  }
-
   function onAddCountClick() {
-    setCount((currentCount) => currentCount + step);
+    setCount((currentCount) => currentCount + Number(step));
   }
 
   function onDecrementCountClick() {
-    setCount((currentCount) => currentCount - step);
+    setCount((currentCount) => currentCount - Number(step));
   }
 
   return (
     <div>
       <h1>Super date counter!</h1>
-      <Picker
-        title='Step'
-        difference={step}
-        onAddClick={onAddStepClick}
-        onMinusClick={onDecrementStepClick}
-      />
-      <Picker
-        title='Count'
-        difference={count}
-        onAddClick={onAddCountClick}
-        onMinusClick={onDecrementCountClick}
-      />
-      <NewDate diffInDays={count} />
-    </div>
-  );
-}
+      <div>
+        <input
+          type='range'
+          min={1}
+          max={20}
+          value={step}
+          onChange={(e) => setStep(e.target.value)}
+        />
+        <span>{step}</span>
+      </div>
+      <div>
+        <button onClick={onDecrementCountClick}>-</button>
+        <input
+          className='picker-text'
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
+        <button onClick={onAddCountClick}>+</button>
+      </div>
 
-function Picker({ title, difference, onAddClick, onMinusClick }) {
-  return (
-    <div>
-      <button className='picker-btn' onClick={onMinusClick}>
-        <span className='material-symbols-outlined'>remove</span>
-      </button>
-      <span className='picker-text'>
-        {title}: {difference}
-      </span>
-      <button className='picker-btn' onClick={onAddClick}>
-        <span className='material-symbols-outlined'>add</span>
-      </button>
+      <NewDate diffInDays={Number(count)} />
     </div>
   );
 }
@@ -68,13 +52,12 @@ function Picker({ title, difference, onAddClick, onMinusClick }) {
 function NewDate({ diffInDays }) {
   const newDate = new Date();
   newDate.setDate(newDate.getDate() + diffInDays);
-  const text = diffInDays > 0 ? 'from' : 'before';
+  const text =
+    diffInDays > 0
+      ? `${Math.abs(diffInDays)} days from today`
+      : diffInDays === 0
+      ? 'Today'
+      : `${Math.abs(diffInDays)} days before today`;
 
-  return (
-    <div>
-      {`${Math.abs(
-        diffInDays
-      )} days ${text} today is ${newDate.toDateString()}`}
-    </div>
-  );
+  return <div>{`${text} is ${newDate.toDateString()}`}</div>;
 }
