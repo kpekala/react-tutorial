@@ -14,11 +14,16 @@ function Counter() {
   const [count, setCount] = useState(0);
 
   function onAddCountClick() {
-    setCount((currentCount) => currentCount + Number(step));
+    setCount((currentCount) => currentCount + step);
   }
 
   function onDecrementCountClick() {
-    setCount((currentCount) => currentCount - Number(step));
+    setCount((currentCount) => currentCount - step);
+  }
+
+  function handleReset() {
+    setCount(0);
+    setStep(1);
   }
 
   return (
@@ -30,7 +35,7 @@ function Counter() {
           min={1}
           max={20}
           value={step}
-          onChange={(e) => setStep(e.target.value)}
+          onChange={(e) => setStep(Number(e.target.value))}
         />
         <span>{step}</span>
       </div>
@@ -45,6 +50,11 @@ function Counter() {
       </div>
 
       <NewDate diffInDays={Number(count)} />
+      {step !== 1 || count !== 0 ? (
+        <button style={{ marginTop: '16px' }} onClick={handleReset}>
+          Reset
+        </button>
+      ) : null}
     </div>
   );
 }
