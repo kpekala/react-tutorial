@@ -19,6 +19,13 @@ body {
 
 .summary {
   margin-bottom: 2rem;
+  display: inline-block;
+}
+
+.export-container {
+  float: right;
+  display: flex;
+  gap: 1rem;
 }
 
 .summary-list {
@@ -35,7 +42,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .transaction-item {
@@ -74,6 +80,7 @@ body {
   background-color: black;
   color: white;
   cursor: pointer;
+  border: none;
 }
 
 .input {
@@ -98,4 +105,13 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.form-add-label {
+  margin-bottom: 1rem;
+}
+
+.add-label-container {
+  display: flex;
+  justify-content: space-between;
 }
