@@ -147,6 +147,10 @@ function FormAddTransaction({ onAddTransaction, labels }) {
 
   function handleAddTransaction(e) {
     e.preventDefault();
+
+    if(title === '' || label === '' || price === 0)
+      return;
+
     onAddTransaction({
       title,
       label,

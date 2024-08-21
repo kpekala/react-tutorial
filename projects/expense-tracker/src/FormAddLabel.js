@@ -7,6 +7,8 @@ export function FormAddLabel({ onAddLabel }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if(label === '')
+      return;
     onAddLabel(label);
   }
   return (
