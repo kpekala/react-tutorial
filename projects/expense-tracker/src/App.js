@@ -17,6 +17,11 @@ export default function App() {
     setShowTransactionForm((show) => !show);
   }
 
+  function onAddTransaction(transaction) {
+    setTransactions((transactions) => [...transactions, {...transaction, id: transactions.length + 1, currency: 'PLN'}]);
+    setShowTransactionForm(false);
+  }
+
   const expenses = transactions
     .filter((transaction) => transaction.price < 0)
     .reduce((partialSum, a) => partialSum - a.price, 0);
@@ -39,13 +44,14 @@ export default function App() {
       <TransactionsHeader
         onShowTransactionForm={handleShowTransactionForm}
         showTransactionForm={showTransactionForm}
+        onAddTransaction={onAddTransaction}
       />
       <Transactions transactions={transactions} />
     </div>
   );
 }
 
-function TransactionsHeader({ onShowTransactionForm, showTransactionForm }) {
+function TransactionsHeader({onShowTransactionForm, showTransactionForm, onAddTransaction}) {
   return (
     <div>
       <div className='transactions-header'>
@@ -57,23 +63,55 @@ function TransactionsHeader({ onShowTransactionForm, showTransactionForm }) {
           <Button>+ Add label</Button>
         </div>
       </div>
-      {showTransactionForm && <FormAddTransaction />}
+      {showTransactionForm && (
+        <FormAddTransaction onAddTransaction={onAddTransaction} />
+      )}
     </div>
   );
 }
 
-function FormAddTransaction(onAddTransaction) {
+function FormAddTransaction({onAddTransaction}) {
   const [title, setTitle] = useState('');
   const [label, setLabel] = useState('');
   const [price, setPrice] = useState(0);
 
+  function handleAddTransaction(e) {
+    e.preventDefault();
+    onAddTransaction({ title, label, price });
+  }
+
   return (
     <form className='form-add-transaction'>
-      <input
-        type='text'
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div className='container-add-transaction'>
+        <span className='input-container'>
+          <label>Title: </label>
+          <input
+            className='input'
+            type='text'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </span>
+        <span className='input-container'>
+          <label>Label: </label>
+          <input
+            className='input'
+            type='text'
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+          />
+        </span>
+        <span className='input-container'>
+          <label>Price: </label>
+          <input
+            className='input'
+            type='text'
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </span>
+        <Button onClick={handleAddTransaction}>Add</Button>
+      </div>
     </form>
   );
 }
@@ -132,7 +170,7 @@ function Transactions({ transactions }) {
 
 function Transaction({ transaction }) {
   return (
-    <li>
+    <li className='transaction-item'>
       <div className='transaction'>
         <span>{transaction.title}</span>
         <span className='label'>{transaction.label}</span>

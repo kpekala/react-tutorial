@@ -35,13 +35,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+}
+
+.transaction-item {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 0.8rem;
   padding-top: 0.8rem;
 }
 
-.transaction:last-child {
+.transaction-item:last-child {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding-bottom: 0.8rem;
 }
 
 .transactions-title {
@@ -72,6 +76,15 @@ body {
   cursor: pointer;
 }
 
+.input {
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 16px;
+  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
 .buttons-group {
   display: flex;
   gap: 1rem;
@@ -79,4 +92,10 @@ body {
 
 .form-add-transaction {
   margin-bottom: 1rem;
+}
+
+.container-add-transaction {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
