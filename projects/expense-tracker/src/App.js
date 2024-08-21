@@ -34,9 +34,12 @@ export default function App() {
   }
 
   function handleClear() {
-    localStorage.clear();
-    setLabels([]);
-    setTransactions([]);
+    const confirm = window.confirm('Are you sure about that? This will clear all your transactions and labels!');
+    if (confirm) {
+      localStorage.clear();
+      setLabels([]);
+      setTransactions([]);
+    }
   }
 
   function onAddLabel(label) {
