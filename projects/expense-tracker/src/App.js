@@ -42,6 +42,10 @@ export default function App() {
     }
   }
 
+  function handleRemove(id) {
+    setTransactions((transactions) => transactions.filter(tr => tr.id !== id));
+  }
+
   function onAddLabel(label) {
     setLabels((labels) => [...labels, label]);
   }
@@ -83,7 +87,7 @@ export default function App() {
         labels={labels}
         onAddLabel={onAddLabel}
       />
-      <Transactions transactions={transactions} />
+      <Transactions transactions={transactions} onRemove={handleRemove}/>
     </div>
   );
 }
@@ -254,17 +258,28 @@ function MoneySummary({ money, text, currency, color }) {
   );
 }
 
-function Transactions({ transactions }) {
+function Transactions({ transactions, onRemove}) {
+  const [showOptions, setShowOptions] = useState(null);
+
+  function handleShowOptions(id) {
+    setShowOptions(showOptions === id ? null: id);
+  }
+
   return (
     <ul className='transactions'>
       {transactions.map((transaction) => (
-        <Transaction transaction={transaction} key={transaction.id} />
+        <Transaction transaction={transaction} key={transaction.id} 
+          onShowOptions={handleShowOptions} showOptions={showOptions}
+          onRemove={(id) => {
+            onRemove(id);
+            setShowOptions(null);
+          }}/>
       ))}
     </ul>
   );
 }
 
-function Transaction({ transaction }) {
+function Transaction({ transaction, onShowOptions, showOptions, onRemove}) {
   return (
     <li className='transaction-item'>
       <div className='transaction'>
@@ -275,6 +290,14 @@ function Transaction({ transaction }) {
           {transaction.price}
           {transaction.currency !== '$' ? transaction.currency : ''}
         </span>
+        <span className="material-symbols-outlined icon" onClick={() => onShowOptions(transaction.id)}>
+          more_vert
+        </span>
+        {(showOptions === transaction.id) && (
+          <span className='options' onClick={() => onRemove(transaction.id)}>
+          <span>Remove</span>
+        </span>)}
+        
       </div>
     </li>
   );

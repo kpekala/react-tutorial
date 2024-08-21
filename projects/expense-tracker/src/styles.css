@@ -42,6 +42,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .transaction-item {
@@ -83,6 +84,21 @@ body {
   flex-grow: 1;
   flex-basis: 0;
   text-align: right;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.options {
+  position: absolute;
+  border-radius: 16px;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  right: .5rem;
+  top: 2rem;
+  background-color: white;
+  cursor: pointer;
 }
 
 .button {
