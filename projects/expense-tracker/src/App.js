@@ -3,26 +3,78 @@ import './styles.css';
 
 export default function App() {
   const [transactions, setTransactions] = useState([
-    { title: 'Netflix', label: 'Straming', price: -18, currency: 'PLN', id: 1 },
+    {
+      title: 'Netflix',
+      label: '🍿Streaming',
+      price: -18,
+      currency: 'PLN',
+      id: 1,
+    },
   ]);
+  const [showTransactionForm, setShowTransactionForm] = useState(false);
+
+  function handleShowTransactionForm() {
+    setShowTransactionForm((show) => !show);
+  }
 
   const expenses = transactions
     .filter((transaction) => transaction.price < 0)
-    .reduce((partialSum, a) => partialSum + a, 0);
+    .reduce((partialSum, a) => partialSum - a.price, 0);
+
+  const income = transactions
+    .filter((transaction) => transaction.price > 0)
+    .reduce((partialSum, a) => partialSum + a.price, 0);
 
   return (
     <div className='app-container'>
       <h2 className='summary'>Summary</h2>
-      <MoneySummary money={2137} text='Net Total' currency='PLN' />
+      <MoneySummary money={income - expenses} text='Net Total' currency='PLN' />
       <SummaryList
-        income={2000}
+        income={income}
         expenses={expenses}
         investment={100}
         savings={50}
         currency={'PLN'}
       />
+      <TransactionsHeader
+        onShowTransactionForm={handleShowTransactionForm}
+        showTransactionForm={showTransactionForm}
+      />
       <Transactions transactions={transactions} />
     </div>
+  );
+}
+
+function TransactionsHeader({ onShowTransactionForm, showTransactionForm }) {
+  return (
+    <div>
+      <div className='transactions-header'>
+        <p className='transactions-title'>Transactions</p>
+        <div className='buttons-group'>
+          <Button onClick={() => onShowTransactionForm()}>
+            {!showTransactionForm ? '+ Add transaction' : 'Close'}
+          </Button>
+          <Button>+ Add label</Button>
+        </div>
+      </div>
+      {showTransactionForm && <FormAddTransaction />}
+    </div>
+  );
+}
+
+function FormAddTransaction(onAddTransaction) {
+  const [title, setTitle] = useState('');
+  const [label, setLabel] = useState('');
+  const [price, setPrice] = useState(0);
+
+  return (
+    <form className='form-add-transaction'>
+      <input
+        type='text'
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+    </form>
   );
 }
 
@@ -72,7 +124,7 @@ function Transactions({ transactions }) {
   return (
     <ul className='transactions'>
       {transactions.map((transaction) => (
-        <Transaction transaction={transaction} />
+        <Transaction transaction={transaction} key={transaction.id} />
       ))}
     </ul>
   );
@@ -80,12 +132,24 @@ function Transactions({ transactions }) {
 
 function Transaction({ transaction }) {
   return (
-    <li key={transaction.id}>
+    <li>
       <div className='transaction'>
         <span>{transaction.title}</span>
-        <span>{transaction.label}</span>
-        <span>{Math.abs(transaction.price)}</span>
+        <span className='label'>{transaction.label}</span>
+        <span>
+          {transaction.currency === '$' ? '$' : ''}
+          {transaction.price}
+          {transaction.currency !== '$' ? transaction.currency : ''}
+        </span>
       </div>
     </li>
+  );
+}
+
+function Button({ children, onClick }) {
+  return (
+    <button className='button' onClick={onClick}>
+      {children}
+    </button>
   );
 }
