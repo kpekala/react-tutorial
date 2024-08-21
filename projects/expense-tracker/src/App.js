@@ -139,7 +139,6 @@ function TransactionsHeader({ onAddTransaction, labels, onAddLabel }) {
 }
 
 function FormAddTransaction({ onAddTransaction, labels }) {
-  console.log(labels);
   const [title, setTitle] = useState('');
   const [label, setLabel] = useState(labels ? labels[0] : '');
   const [price, setPrice] = useState(0);
@@ -154,7 +153,7 @@ function FormAddTransaction({ onAddTransaction, labels }) {
     onAddTransaction({
       title,
       label,
-      price: type === 'expense' ? -price : price,
+      price: type === 'expense' ? -Number(price) : Number(price),
       type,
     });
   }
@@ -189,9 +188,9 @@ function FormAddTransaction({ onAddTransaction, labels }) {
           <label>Price: </label>
           <input
             className='input'
-            type='text'
+            type='number'
             value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </span>
         <span className='input-container'>
