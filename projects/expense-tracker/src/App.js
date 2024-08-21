@@ -4,10 +4,9 @@ import { FormAddLabel } from './FormAddLabel';
 
 function initData() {
   let mockLabels = ['🍿Streaming', '📈Investments', '🪙Savings'];
-  let mockTransactions = [];
   let initialLabels = localStorage.getItem('labels')?.split(',') ?? mockLabels;
   let initialTransactions = JSON.parse(
-    localStorage.getItem('transactions') ?? mockTransactions
+    localStorage.getItem('transactions') ?? '[]'
   );
   return [initialLabels, initialTransactions];
 }
@@ -263,9 +262,9 @@ function Transaction({ transaction }) {
   return (
     <li className='transaction-item'>
       <div className='transaction'>
-        <span>{transaction.title}</span>
+        <span className='left'>{transaction.title}</span>
         <span className='label'>{transaction.label}</span>
-        <span>
+        <span className='right'>
           {transaction.currency === '$' ? '$' : ''}
           {transaction.price}
           {transaction.currency !== '$' ? transaction.currency : ''}

@@ -74,6 +74,17 @@ body {
   padding: 5px;
 }
 
+.left{
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.right {
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: right;
+}
+
 .button {
   padding: 8px;
   border-radius: 16px;
