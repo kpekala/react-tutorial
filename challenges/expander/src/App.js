@@ -45,12 +45,9 @@ function TextExpander({
   className = '',
 }) {
   const [expand, setExpand] = useState(expanded);
-  // Szukamy wszystkich slow
-  const words = children.split(' ');
-  // Szukamy miejsca, do ktorego slowa beda nas interesowac
-  const endIndex = children.indexOf(words[words.length - collapsedNumWords]);
-  const wordsToShow = expand ? children : children.slice(0, endIndex);
-  console.log('Abrakadabra'.indexOf('ka'));
+  const wordsToShow = expand
+    ? children
+    : children.split(' ').slice(0, collapsedNumWords).join(' ') + '...';
 
   function handleExpand() {
     setExpand((expand) => !expand);
