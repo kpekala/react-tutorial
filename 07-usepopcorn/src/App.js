@@ -94,7 +94,7 @@ export default function App() {
 }
 
 function Loader() {
-  return <p className='loadre'>Loading...</p>;
+  return <p className='loader'>Loading...</p>;
 }
 
 function NavBar({ children }) {
