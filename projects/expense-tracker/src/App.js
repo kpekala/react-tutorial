@@ -34,7 +34,9 @@ export default function App() {
   }
 
   function handleClear() {
-    const confirm = window.confirm('Are you sure about that? This will clear all your transactions and labels!');
+    const confirm = window.confirm(
+      'Are you sure about that? This will clear all your transactions and labels!'
+    );
     if (confirm) {
       localStorage.clear();
       setLabels([]);
@@ -43,7 +45,9 @@ export default function App() {
   }
 
   function handleRemove(id) {
-    setTransactions((transactions) => transactions.filter(tr => tr.id !== id));
+    setTransactions((transactions) =>
+      transactions.filter((tr) => tr.id !== id)
+    );
   }
 
   function onAddLabel(label) {
@@ -87,7 +91,7 @@ export default function App() {
         labels={labels}
         onAddLabel={onAddLabel}
       />
-      <Transactions transactions={transactions} onRemove={handleRemove}/>
+      <Transactions transactions={transactions} onRemove={handleRemove} />
     </div>
   );
 }
@@ -151,8 +155,7 @@ function FormAddTransaction({ onAddTransaction, labels }) {
   function handleAddTransaction(e) {
     e.preventDefault();
 
-    if(title === '' || label === '' || price === 0)
-      return;
+    if (title === '' || label === '' || price === 0) return;
 
     onAddTransaction({
       title,
@@ -258,28 +261,32 @@ function MoneySummary({ money, text, currency, color }) {
   );
 }
 
-function Transactions({ transactions, onRemove}) {
+function Transactions({ transactions, onRemove }) {
   const [showOptions, setShowOptions] = useState(null);
 
   function handleShowOptions(id) {
-    setShowOptions(showOptions === id ? null: id);
+    setShowOptions(showOptions === id ? null : id);
   }
 
   return (
     <ul className='transactions'>
       {transactions.map((transaction) => (
-        <Transaction transaction={transaction} key={transaction.id} 
-          onShowOptions={handleShowOptions} showOptions={showOptions}
+        <Transaction
+          transaction={transaction}
+          key={transaction.id}
+          onShowOptions={handleShowOptions}
+          showOptions={showOptions}
           onRemove={(id) => {
             onRemove(id);
             setShowOptions(null);
-          }}/>
+          }}
+        />
       ))}
     </ul>
   );
 }
 
-function Transaction({ transaction, onShowOptions, showOptions, onRemove}) {
+function Transaction({ transaction, onShowOptions, showOptions, onRemove }) {
   return (
     <li className='transaction-item'>
       <div className='transaction'>
@@ -290,14 +297,17 @@ function Transaction({ transaction, onShowOptions, showOptions, onRemove}) {
           {transaction.price}
           {transaction.currency !== '$' ? transaction.currency : ''}
         </span>
-        <span className="material-symbols-outlined icon" onClick={() => onShowOptions(transaction.id)}>
+        <span
+          className='material-symbols-outlined icon'
+          onClick={() => onShowOptions(transaction.id)}
+        >
           more_vert
         </span>
-        {(showOptions === transaction.id) && (
+        {showOptions === transaction.id && (
           <span className='options' onClick={() => onRemove(transaction.id)}>
-          <span>Remove</span>
-        </span>)}
-        
+            <span>Remove</span>
+          </span>
+        )}
       </div>
     </li>
   );
