@@ -238,16 +238,9 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       const data = await res.json();
       setMovie(data);
       setIsLoading(false);
-      const m = watched.filter((mv) => mv.imdbID === data.imdbID)[0];
-      let uRating = '';
-      if (m) {
-        uRating = m.userRating.toString();
-      }
-      setUserRating(uRating);
     }
     getMovieDetails();
-  }, [selectedId, watched]);
-  console.log(userRating);
+  }, [selectedId]);
   return (
     <div className='details'>
       {isLoading ? (
