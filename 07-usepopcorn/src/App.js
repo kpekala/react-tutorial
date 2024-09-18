@@ -31,8 +31,6 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
-  console.log('function call');
-
   useEffect(() => {
     const controller = new AbortController();
     async function fetchMovies() {
@@ -51,7 +49,6 @@ export default function App() {
         setMovies(data.Search);
         setError('');
       } catch (err) {
-        console.error(err.message);
         if (err.name !== 'AbortError') {
           setError(err.message);
         }
@@ -66,10 +63,10 @@ export default function App() {
       return;
     }
 
+    onCloseMovie();
     fetchMovies();
 
     return () => {
-      console.log('cleanup');
       controller.abort();
     };
   }, [query]);
@@ -260,9 +257,20 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
     return () => {
       document.title = 'usePopcorn';
-      console.log(`Clean up effect for movie ${title}`);
     };
   }, [title]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === 'Escape') {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener('keydown', callback);
+    return () => {
+      document.removeEventListener('keydown', callback);
+    };
+  }, [onCloseMovie]);
   return (
     <div className='details'>
       {isLoading ? (
