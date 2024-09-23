@@ -3,6 +3,7 @@ import Main from './Main';
 import Header from './Header';
 import Loader from './Loader';
 import Error from './Error';
+import NextButton from './NextButton';
 import StartScreen from './StartScreen';
 import Question from './Question';
 import { useEffect, useReducer } from 'react';
@@ -40,6 +41,8 @@ function reducer(state, action) {
             ? state.points + question.points
             : state.points,
       };
+    case 'newQuestion':
+      return { ...state, index: state.index + 1, answer: null };
     default:
       throw new Error('Action unkonwn');
   }
@@ -69,11 +72,14 @@ function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === 'active' && (
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextButton dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>
